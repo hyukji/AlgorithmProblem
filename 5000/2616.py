@@ -1,6 +1,8 @@
 n = int(input())
 arr = list(map(int, input().split()))
 m = int(input())
+
+# 누적합 구하기.
 s_arr = [0]
 for el in arr:
     s_arr.append(s_arr[-1] + el)
