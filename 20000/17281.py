@@ -9,19 +9,19 @@ for _ in range(n):
     
     
 answer = 0
-ps= permutations(range(1, 9), 8)
+ps= permutations(range(1, 9), 8) # 선수들 배치 가능한 경우의 수 -> 순열
 for p in ps:
     seq = list(p)
-    seq.insert(3, 0)
+    seq.insert(3, 0) # 4번째 타자는 0번.
     
     p_answer, i, inning = 0, 0, 0
     while inning < n:
-        f, s, t = 0, 0, 0
-        out = 0
+        f, s, t = 0, 0, 0 # 1루, 2루, 3루
+        out = 0 # out 경우의 수
         while out < 3:
-            hit = graph[inning][seq[i]]
+            hit = graph[inning][seq[i]] # hit 결과.
             
-            i = (i + 1) % 9
+            i = (i + 1) % 9 # 선수들 싸이클이 다 돌면 다시 처음부터.
             
             if hit == 0:
                 out += 1
