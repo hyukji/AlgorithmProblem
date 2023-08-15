@@ -17,6 +17,7 @@ for x, y, d1, d2 in settings:
     result = [0, 0, 0, 0, 0]
     s, e, ds, de = y, y, -1, 1
 
+    # 5 채워주기
     for r in range(x, x+d1+d2+1):
         for c in range(s, e+1):
             graph[r][c] = 4
@@ -28,7 +29,6 @@ for x, y, d1, d2 in settings:
 
         s += ds
         e += de
-
 
 
     for r in range(N):
