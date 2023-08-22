@@ -16,13 +16,13 @@ def check():
     directions = [(-1, 0), (1, 0), (0, -1), (0,1)]
     for c in range(n):
         for r in range(m):
-            if graph[c][r] == 0:
+            if graph[c][r] == 0: # 없는 숫자
                 continue
             
             S += graph[c][r]
             cnt += 1
             
-            for dc, dr in directions:
+            for dc, dr in directions: # 인접 여부
                 nc, nr = c + dc, r + dr
                 
                 if nc >= n or nc < 0:
@@ -36,13 +36,13 @@ def check():
                     visited[nc][nr] = 1  
                     isVisited = 1
                     
-    if isVisited == 1:
+    if isVisited == 1: # 인접한 경우가 있다면
         for c in range(n):
             for r in range(m):
                 if visited[c][r] == 1:
                     S -= graph[c][r]
                     graph[c][r] = 0
-    elif cnt != 0:
+    elif cnt != 0: # 인접한 경우가 없다면 -> 평균 계산
         avg = S / cnt
         for c in range(n):
             for r in range(m):
@@ -58,23 +58,24 @@ def check():
                     
     return S
                     
+
 n, m, t = map(int, input().split())
 S = 0
 graph = []
 for _ in range(n):
     row = list(map(int, input().split()))
-    graph.append(deque(row))
+    graph.append(deque(row)) # rot를 위해 deque로 구현
     S += sum(row)
     
 for _ in range(t):
     x, d, k = map(int, input().split())
-    for i in range(1, n//x+1):
-        if d == 0:
-            clockwise(x*i-1, k)
+    for i in range(1, n//x+1): # 돌려야 하는 원판
+        if d == 0: # 방향 고려
+            clockwise(x*i-1, k) 
         else:
             counterClockWise(x*i-1, k)
     
-    S = check()
+    S = check() # 회전 이후
             
 
 print(S)
