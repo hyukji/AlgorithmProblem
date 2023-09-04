@@ -6,6 +6,16 @@ map = []
 loc_arr = []
 num_arr = [i for i in range(1, 13)]
 
+def validate():
+    for row in graph:
+        s = 0
+        for el in row:
+            s += map[el]
+        if s != 26:
+            return False
+    return True
+
+# input을 int로 바꾸어 저장.
 loc = 0
 for _ in range(5):
     for alpha in input().replace('.', ''):
@@ -18,16 +28,7 @@ for _ in range(5):
         map.append(o)
         loc += 1
     
-
-def validate():
-    for row in graph:
-        s = 0
-        for el in row:
-            s += map[el]
-        if s != 26:
-            return False
-    return True
-
+# 가능한 순열 조합을 찾아 해당 방법이 validate한지 확인
 cnt = len(num_arr)
 perms = permutations(num_arr, cnt)
 for per in perms:
@@ -38,6 +39,7 @@ for per in perms:
         break
 
 
+# 문자로 바꾸어 출력
 for i, num in enumerate(map):
     o = chr(num+ 64) 
     map[i] = o

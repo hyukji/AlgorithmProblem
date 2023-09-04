@@ -13,7 +13,6 @@ for i in range(2, n):
     for j in range(2, k+1):
         dp[i][j] = (dp[i-1][j] + dp[i-2][j-1]) % MAX
 
-for j in range(2, k+1):
-    dp[n][j] = (dp[n-2][j] + dp[n-3][j-1]) % MAX # n일 경우 맨 처음 색상을 선택하는 경우를 제외시켜야함.
+dp[n][k] = (dp[n-2][k] + dp[n-3][k-1]) % MAX # n일 경우 맨 처음 색상을 선택하는 경우를 제외시켜야함.
 
 print(dp[n][k])
