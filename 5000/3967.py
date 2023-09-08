@@ -3,8 +3,8 @@ from itertools import permutations
 graph = [[0, 2, 5, 7], [1, 2, 3, 4], [0, 3, 6, 10], [4, 6, 9, 11],[7, 8, 9, 10], [1, 5, 8, 11]]
 
 map = []
-loc_arr = []
-num_arr = [i for i in range(1, 13)]
+loc_arr = [] # x인 위치
+num_arr = [i for i in range(1, 13)] # 사용하지 않은 문자
 
 def validate():
     for row in graph:
@@ -27,7 +27,7 @@ for _ in range(5):
             num_arr.remove(o)
         map.append(o)
         loc += 1
-    
+
 # 가능한 순열 조합을 찾아 해당 방법이 validate한지 확인
 cnt = len(num_arr)
 perms = permutations(num_arr, cnt)
