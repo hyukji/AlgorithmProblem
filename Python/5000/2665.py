@@ -14,19 +14,22 @@ if graph[0][0] == '0':
     v += 1
 visited[0][0] = v
 
-dq = deque([(0, 0, v)])
+dq = deque([(0, 0)])
 while dq:
     for _ in range(len(dq)):
-        x, y, v = dq.popleft()
+        x, y = dq.popleft()
+        v = visited[x][y]
+
         for dx, dy in directions:
-            nx, ny, nv = x + dx, y + dy, v
+            nx, ny = x + dx, y + dy
 
             if 0 <= nx < n and 0 <= ny < n:
-                if graph[nx][ny] == '0':
+                nv = v
+                if graph[nx][ny] == '0': # 검은색
                     nv += 1
                 
                 if nv < visited[nx][ny]:
-                    dq.append((nx, ny, nv))
                     visited[nx][ny] = nv
+                    dq.append((nx, ny))
 
 print(visited[n-1][n-1])

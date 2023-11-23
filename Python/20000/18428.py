@@ -6,21 +6,6 @@ map = []
 teachers = []
 studentCount = 0
 directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
-for r in range(n):
-    row = []
-    for c, el in enumerate(input().split()):
-        if el == "T":
-            teachers.append((r, c))
-            v = 2
-        elif el == "S":
-            studentCount += 1
-            v = 1
-        else:
-            v = 0
-        row.append(v)
-
-    map.append(row)
         
 def arr2loc(arr):
     locs = []
@@ -59,6 +44,21 @@ def findUsingDirection(nr, nc, d):
 
     return cnt
 
+for r in range(n):
+    row = []
+    for c, el in enumerate(input().split()):
+        if el == "T":
+            teachers.append((r, c))
+            v = 2
+        elif el == "S":
+            studentCount += 1
+            v = 1
+        else:
+            v = 0
+        row.append(v)
+
+    map.append(row)
+    
 answer = "NO"
 for combi in list(combinations(range(n*n), 3)):
     locs = arr2loc(combi)

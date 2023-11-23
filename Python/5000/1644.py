@@ -3,6 +3,7 @@ from math import sqrt
 n = int(input())
 arr = [0 for _ in range(n+1)]
 
+# 에라토스테네스 체
 primes_sum = [0]
 m = max(2, int(sqrt(n)) + 1)
 for i in range(2, m):

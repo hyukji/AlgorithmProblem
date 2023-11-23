@@ -2,17 +2,6 @@ from copy import deepcopy
 from itertools import product
 from collections import deque
 
-m, s = map(int, input().split())
-fish = [[[] for _ in range(4)] for _ in range(4)]
-shark = [[0 for _ in range(4)] for _ in range(4)]
-for _ in range(m):
-    x, y, d = map(int, input().split())
-    fish[x-1][y-1].append(d-1)
-x, y = list(map(int, input().split()))
-sharkLoc = (x-1, y-1)
-
-directions = [(0, -1) , (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)] # ←, ↖, ↑, ↗, →, ↘, ↓, ↙
-
 
 def printFish():
     for row in fish:
@@ -142,6 +131,19 @@ def countFish():
         for y in range(4):
             answer += len(fish[x][y])
     return answer
+
+
+m, s = map(int, input().split())
+fish = [[[] for _ in range(4)] for _ in range(4)]
+shark = [[0 for _ in range(4)] for _ in range(4)]
+for _ in range(m):
+    x, y, d = map(int, input().split())
+    fish[x-1][y-1].append(d-1)
+x, y = list(map(int, input().split()))
+sharkLoc = (x-1, y-1)
+
+directions = [(0, -1) , (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)] # ←, ↖, ↑, ↗, →, ↘, ↓, ↙
+
 
 for i in range(s):
     oriFish = deepcopy(fish)
