@@ -9,19 +9,17 @@ class Solution {
 		for(int i = 0; i < n; i++) {
 			double remain = (100.0 - progresses[i]) / speeds[i];
 			
-			if(remain <= t) {
-				count++;
-				continue;
+			if(t < remain) {
+                if(count != 0) {
+                    list.add(count);
+                    count = 0;
+                }
+                
+                t = (int) remain;
+                if(remain != (int) remain) t++;
 			}
-			
-			if(count != 0) {
-                list.add(count);
-                count = 0;
-            }
+            
             count++;
-			
-			t = (int) remain;
-			if(remain != (int) remain) t++;
 		}
 		
 		if(count != 0) list.add(count);
