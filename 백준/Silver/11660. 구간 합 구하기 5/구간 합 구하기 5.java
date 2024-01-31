@@ -1,46 +1,44 @@
-import java.io.*;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-
-	static int n, m;
-	static int[][] graph;
-	static int[][] sumGraph;
-	static StringBuilder sb  =  new StringBuilder();
-	
+	static int N, M;
+	static int[][] sum;
+	static StringBuilder sb = new StringBuilder();
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		sum = new int[N + 1][N + 1];
 		
-		graph = new int[n][n ];
-		for(int r = 0; r < n ;r++) {
-			st = new StringTokenizer(br.readLine(), " ");
-			for(int c = 0; c < n ; c++) {
-				graph[r][c] = Integer.parseInt(st.nextToken());
-			}
-		}
-
-		sumGraph = new int[n+1][n+1]; // [y][x] 좌표에 00~ yx까지 전부 더함
-		for(int r = 1; r < n+1; r++) {
-			for(int c = 1;  c <n+1; c++) {
-				sumGraph[r][c] = graph[r-1][c-1] + sumGraph[r-1][c] + sumGraph[r][c-1] - sumGraph[r-1][c-1];
+		for(int i = 1; i <= N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j = 1; j <= N; j++) {
+				int input = Integer.parseInt(st.nextToken());
+				sum[i][j] = sum[i][j - 1] + input;
 			}
 		}
 		
-		for(int i = 0; i < m; i++) {
-			st = new StringTokenizer(br.readLine(), " ");
-			int y1 = Integer.parseInt(st.nextToken());
+		for(int i = 1; i <= N; i++) {
+			for(int j = 1; j <= N; j++) {
+				sum[i][j] += sum[i-1][j];
+			}
+		}
+		
+		for(int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
 			int x1 = Integer.parseInt(st.nextToken());
-			int y2 = Integer.parseInt(st.nextToken());
+			int y1 = Integer.parseInt(st.nextToken());
 			int x2 = Integer.parseInt(st.nextToken());
-			sb.append(sumGraph[y2][x2] - sumGraph[y2][x1-1] - sumGraph[y1-1][x2] + sumGraph[y1-1][x1-1]).append("\n");
+			int y2 = Integer.parseInt(st.nextToken());
+			
+			sb.append(sum[x2][y2] - sum[x1 - 1][y2] - sum[x2][y1-1] + sum[x1-1][y1-1]).append("\n");
 		}
 		
-		System.out.print(sb);
+		System.out.println(sb);
 	}
-	
 }
