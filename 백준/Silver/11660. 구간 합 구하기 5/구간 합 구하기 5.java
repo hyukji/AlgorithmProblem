@@ -31,16 +31,16 @@ public class Main {
 			}
 		}
 		
-		
-
 		for(int i = 0; i < m; i++) {
 			st = new StringTokenizer(br.readLine(), " ");
 			int y1 = Integer.parseInt(st.nextToken());
 			int x1 = Integer.parseInt(st.nextToken());
 			int y2 = Integer.parseInt(st.nextToken());
 			int x2 = Integer.parseInt(st.nextToken());
-			System.out.println(sumGraph[y2][x2] - sumGraph[y2][x1-1] - sumGraph[y1-1][x2] + sumGraph[y1-1][x1-1]);
+			sb.append(sumGraph[y2][x2] - sumGraph[y2][x1-1] - sumGraph[y1-1][x2] + sumGraph[y1-1][x1-1]).append("\n");
 		}
+		
+		System.out.print(sb);
 	}
 	
 }
