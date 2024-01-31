@@ -1,39 +1,38 @@
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static int N;
-    public static int M;
-    public static int[] arr;
-    public static StringBuilder sb = new StringBuilder();
+	
+	static int n, m;
+	static int[] result;
+	static StringBuilder sb  =  new StringBuilder();
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		result  = new int[m];
+		
+		comb(0, 1);
+		
+		System.out.print(sb);
+	}
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-        arr = new int[M];
-
-        dfs(0, 0);
-        System.out.println(sb);
-    }
-
-    public static void dfs(int at, int depth) {
-        if (depth == M) {
-            for (int val : arr) {
-                sb.append(val).append(" ");
-            }
-            sb.append("\n");
-            return;
-        }
-
-        for (int i = at; i < N; i++) {
-            arr[depth] = i+1;
-            dfs(i+1, depth + 1);
-        }
-    }
+	private static void comb(int cnt, int start) {
+		if(cnt == m) {
+			for(int v : result) sb.append(v).append(" ");
+			sb.append("\n");
+			return;
+		}
+		
+		for(int i = start; i <= n; i++) {
+			result[cnt] = i;
+			comb(cnt+1, i+1);
+		}
+		
+	}
 }
