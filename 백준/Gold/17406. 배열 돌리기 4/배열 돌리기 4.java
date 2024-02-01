@@ -6,8 +6,9 @@ public class Main {
 	static int n,  m, k, answer = Integer.MAX_VALUE;
 	static boolean[] visited;
 	static int[] perm;
-	static int[][] graph;
-	static int[][] rGraph;
+	static int[][] graph, rGraph;
+	static int[] dr = {0, 1, 0, -1}; //좌하우상
+	static int[] dc = {-1, 0, 1, 0};
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,7 +26,7 @@ public class Main {
 			}
 		}
 
-		rGraph = new int[k][3];
+		rGraph = new int[k][3]; // 회전 정보
 		for(int r =0; r< k; r++) {
 			st = new StringTokenizer(br.readLine(), " ");
 			for(int c =0; c< 2; c++) {
@@ -36,15 +37,15 @@ public class Main {
 
 		perm = new int[k];
 		visited = new boolean[k];
-		permRotate(0);
+		permRotate(0); // 순열로 경우의 수 + 회전.
 		
 		System.out.println(answer);
 	}
 	
 	private static void permRotate(int cnt) {
 		if(cnt == k) {
-			int[][] nGraph = copyGraph();
-			for(int i =0; i < k; i++)  rotate(nGraph, rGraph[perm[i]]);	
+			int[][] nGraph = copyGraph(); // 깊은 복사를 위해서 복제
+			for(int i =0; i < k; i++)  rotate(nGraph, rGraph[perm[i]]);	 // 회전
 			int value = getMinRow(nGraph);
 			if(answer > value) answer = value; 
 			return;
@@ -73,32 +74,24 @@ public class Main {
 		int r = rotation[0];
 		int c = rotation[1];
 		for(int s = 1; s <= rotation[2]; s++) {
-			int temp = nGraph[r-s][c+s];
+			int d = 0; 
+			int nr = r - s;
+			int nc = c + s;
+			int temp = nGraph[nr][nc];
+			//좌하우상
+			while(d<4) {
+				int nnr = nr+dr[d];
+				int nnc = nc+dc[d];
+				if(nnr < r -s || nnr> r+s || nnc < c -s|| nnc > c +s) {
+					d++;
+					continue;
+				}
+				nGraph[nr][nc] = nGraph[nnr][nnc];
+				nr = nnr;
+				nc = nnc;
+			}
+			 nGraph[r - s+1][c + s] = temp;
 			
-			// 위
-			int nr = r-s;
-			for(int nc = c+s; nc > c-s; nc--) {
-				nGraph[nr][nc] = nGraph[nr][nc-1];
-			}
-
-			// 왼
-			int nc = c-s;
-			for(nr = r-s; nr < r+s; nr++) {
-				nGraph[nr][nc] = nGraph[nr+1][nc];
-			}
-
-			// 아래
-			nr = r+s;
-			for(nc = c-s; nc < c+s; nc++) {
-				nGraph[nr][nc] = nGraph[nr][nc+1];
-			}
-
-			// 오른
-			nc = c+s;
-			for(nr = r+s; nr > r-s; nr--) {
-				nGraph[nr][nc] = nGraph[nr-1][nc];
-			}
-			nGraph[r-s+1][c+s] = temp;
 		}
 		
 	}
