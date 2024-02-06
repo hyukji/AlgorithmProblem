@@ -15,6 +15,8 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		m = Integer.parseInt(st.nextToken());
 		n = Integer.parseInt(st.nextToken());
+		
+		int cnt  = 0;
 
 		Queue<int[]> queue = new ArrayDeque<>();
 		graph = new int[n][m];
@@ -24,6 +26,7 @@ public class Main {
 				int v = Integer.parseInt(st.nextToken());
 				graph[r][c] =  v;
 				if(v == 1) queue.add(new int[] {r, c});
+				else if(v==0) cnt++;
 			}
 		}
 		
@@ -39,6 +42,7 @@ public class Main {
 					if(nr < 0 || nr >= n || nc < 0 || nc >= m) continue;
 						
 					if(graph[nr][nc] == 0) {
+						cnt--;
 						queue.add(new int[] {nr, nc});
 						graph[nr][nc]++;
 					}
@@ -46,17 +50,7 @@ public class Main {
 			}
 		}
 		
-
-		for(int r =0; r < n; r++) {  
-			for(int c =0; c < m; c++) {
-				if(graph[r][c] == 0) {
-					System.out.println(-1);
-					return;
-				}
-			}
-		}
-		
-		
+		if(cnt != 0) time = -1;
 		System.out.print(time);
 	}
 
