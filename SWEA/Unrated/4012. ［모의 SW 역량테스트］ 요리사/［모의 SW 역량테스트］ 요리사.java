@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 
+
+// 참고 : https://www.acmicpc.net/source/37713019
 public class Solution  {
 	
 	static int n;
@@ -19,40 +21,40 @@ public class Solution  {
 			int[] visited = new int[n];
 			for(int i = n/2; i < n; i++) visited[i] = 1;
 
+			long tot = 0;
 			int[][] graph = new int[n][n];
 			for(int  r =0; r <n; r++) {
 				st = new StringTokenizer(br.readLine());
 				for(int  c =0; c <n; c++) {
 					graph[r][c] = Integer.parseInt(st.nextToken());
+					tot += graph[r][c];
+				}
+			}
+			
+			int[] crossSum = new int[n];
+			for(int i = 0; i < n; i++) {
+				for(int j = 0; j < n; j++) {
+					crossSum[i] += graph[i][j] + graph[j][i];
 				}
 			}
 				
 			do {
-				int[] left = new int[n/2]; int[] right = new int[n/2];
-				int lSize = 0, rSize = 0; 
+				long sumVisit = 0;
 				for(int i = 0; i < n; i++) {
-					if(visited[i] == 0) left[lSize++] = i;
-					else right[rSize++] = i;
+					if(visited[i] == 1) sumVisit += crossSum[i];
 				}
 				
-				long syn = Math.abs(getSynergy(left, graph) -  getSynergy(right, graph));
+				 // sumVisited안에 방문된 곳이 두번 들어가 있고, 방문 되지 않았을 때의 시너지의 합은 들어 있지 않음
+				// 따라서 전체를 더한 값에 sumVisit을 빼주면 시너지의 차가 나온다.
+				long syn = Math.abs(tot - sumVisit);
 				if(answer > syn) answer = syn;
+				
 			} while(nPn(visited, n));
 			
 			sb.append("#").append(tc).append(" ").append(answer).append(" ").append("\n");
 		}
 		
 		System.out.print (sb);
-	}
-	
-	private static long getSynergy(int[] arr, int[][] graph) {
-		long sum = 0;
-		for(int i = 0; i < n/2; i++) {
-			for(int j = 0; j < n/2; j++) {
-				sum += graph[arr[i]][arr[j]];
-			}
-		}
-		return sum;
 	}
 	
 	static void swap(int[] visited, int i, int j) {
