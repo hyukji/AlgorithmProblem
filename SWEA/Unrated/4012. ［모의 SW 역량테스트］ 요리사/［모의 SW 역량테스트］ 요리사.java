@@ -19,33 +19,24 @@ public class Solution  {
 			int[] visited = new int[n];
 			for(int i = n/2; i < n; i++) visited[i] = 1;
 
-			long tot = 0;
 			int[][] graph = new int[n][n];
 			for(int  r =0; r <n; r++) {
 				st = new StringTokenizer(br.readLine());
 				for(int  c =0; c <n; c++) {
 					graph[r][c] = Integer.parseInt(st.nextToken());
-					tot += graph[r][c];
 				}
 			}
 				
 			do {
-				int[][] Graph0 = copy(graph, n);
-				int[][] Graph1 = copy(graph, n);
+				int[] left = new int[n/2]; int[] right = new int[n/2];
+				int lSize = 0, rSize = 0; 
 				for(int i = 0; i < n; i++) {
-					if(visited[i] == 1) {
-						for(int j = 0; j < n; j++) {
-							Graph0[i][j] = 0; Graph0[j][i] = 0;
-						}
-					} else {
-						for(int j = 0; j < n; j++) {
-							Graph1[i][j] = 0; Graph1[j][i] = 0;
-						}
-					}
+					if(visited[i] == 0) left[lSize++] = i;
+					else right[rSize++] = i;
 				}
 				
-				long diff = Math.abs(getSynergy(Graph0) - getSynergy(Graph1));
-				if(diff < answer) answer = diff;
+				long syn = Math.abs(getSynergy(left, graph) -  getSynergy(right, graph));
+				if(answer > syn) answer = syn;
 			} while(nPn(visited, n));
 			
 			sb.append("#").append(tc).append(" ").append(answer).append(" ").append("\n");
@@ -54,24 +45,14 @@ public class Solution  {
 		System.out.print (sb);
 	}
 	
-	private static long getSynergy(int[][] nGraph) {
+	private static long getSynergy(int[] arr, int[][] graph) {
 		long sum = 0;
-		for(int  r =0; r <n; r++) {
-			for(int  c =0; c <n; c++) {
-				sum += nGraph[r][c];
+		for(int i = 0; i < n/2; i++) {
+			for(int j = 0; j < n/2; j++) {
+				sum += graph[arr[i]][arr[j]];
 			}
 		}
 		return sum;
-	}
-
-	static int[][] copy(int[][] graph, int n) {
-		int[][] nGraph = new int[n][n];
-		for(int  r =0; r <n; r++) {
-			for(int  c =0; c <n; c++) {
-				 nGraph[r][c] = graph[r][c];
-			}
-		}
-		return nGraph;
 	}
 	
 	static void swap(int[] visited, int i, int j) {
