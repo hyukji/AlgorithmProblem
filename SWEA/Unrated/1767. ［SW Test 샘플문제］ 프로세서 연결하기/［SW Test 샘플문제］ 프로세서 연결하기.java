@@ -59,21 +59,9 @@ public class Solution  {
 		}
 		
 		for(int d = 0; d < 4; d++) {
-			if(check(r, c, d, graph)) {
-				int[][] nGraph = copy(graph);
-				int plusLines = 0;
-				int nr = r;
-				int nc = c;
-				
-				while(true) {
-					nr += dr[d]; nc += dc[d];
-					if(nr < 0 || nr >= n || nc < 0 || nc >= n) break;
-					nGraph[nr][nc] = 2;
-					plusLines++;
-				}
-				
-				dfs(cnt+1, connected+1, lines + plusLines, nGraph);
-			}
+			int[][] nGraph = copy(graph);
+			int plusLines = check(r, c, d, nGraph);
+			if(plusLines != 0)  dfs(cnt+1, connected+1, lines + plusLines, nGraph);
 		}
 
 		dfs(cnt+1, connected, lines, graph);
@@ -89,11 +77,15 @@ public class Solution  {
 		return nGraph;
 	}
 
-	private static boolean check(int r, int c, int d, int[][] graph) {
+	private static int check(int r, int c, int d, int[][] graph) {
+		int plusLines = 0;
 		while(true) {
 			r += dr[d]; c += dc[d];
-			if(r < 0 || r >= n || c < 0 || c >= n) return true;
-			if(graph[r][c] != 0) return false;
+			if(r < 0 || r >= n || c < 0 || c >= n) return plusLines;
+			if(graph[r][c] != 0) return 0;
+			
+			graph[r][c] = 2;
+			plusLines++;
 		}
 	}
 	
