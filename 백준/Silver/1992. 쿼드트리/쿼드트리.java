@@ -29,25 +29,31 @@ public class Main {
 	 * m : quadTree 압축을 위한 한 변의 길이
 	 */
 	private static String quadTree(int r, int c, int m) {
-		if(m == 1)  return Character.toString(graph[r][c]); // 압축할 것이 없음 -> 그대로 반환
-
+		if(canArchive(r, c, m)) {
+			return Character.toString(graph[r][c]); // 압축이 가능하다면 압축!
+		}
+		
 		StringBuilder result = new StringBuilder();
 		result.append("(");
 		int half = m/2;
 		for(int i = 0; i < 4; i++) {
 			int nr = r + dr[i] * half;
 			int nc = c + dc[i] * half;
-			result.append(quadTree(nr, nc, half)); // 4개로 쪼개서 해결 -> result에는 4개로 쪼갠 각각의 결과가 저장됨
+			result.append(quadTree(nr, nc, half)); // 4개로 쪼개서 해결
 		}
 		result.append(")");
 		
-		 // 압축이 가능하려면 각각이 4가지의 결과가 0 or 1이어야 하며, 모두 같아야 함.
-		if(result.length() != 6) return result.toString(); // 괄호를 고려하면 result의 크기가 6
-		for(int i = 1; i < 4; i++) {
-			if(result.charAt(i) != result.charAt(i+1)) return result.toString();  // 쪼갠 결과가 같지 않다면
+		return result.toString(); 
+	}
+
+	private static boolean canArchive(int r, int c, int m) {
+		char v = graph[r][c];
+		for(int i = 0; i < m; i++) {
+			for(int j = 0; j < m; j++) {
+				if(v != graph[r+i][c+j]) return false;
+			}
 		}
-		
-		 return Character.toString(result.charAt(1)); // 압축 성공!
+		return true;
 	}
 
 }
