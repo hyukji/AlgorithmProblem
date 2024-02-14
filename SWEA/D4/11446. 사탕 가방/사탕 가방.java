@@ -5,7 +5,7 @@ public class Solution  {
 	
 	static long[] graph ;
 	static int n;
-	static long m, answer;
+	static long m;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,7 +17,6 @@ public class Solution  {
 			st = new StringTokenizer(br.readLine());
 			n =Integer.parseInt(st.nextToken());
 			m =Long.parseLong(st.nextToken());
-			answer = 0;
 			
 			graph = new long[n];
 			long maxV = 0;
@@ -28,32 +27,21 @@ public class Solution  {
 				if(maxV < graph[i]) maxV = graph[i];
 			}
 			
-			binarySearch(0, maxV+1);
-			
-			sb.append("#").append(tc).append(" ").append(answer).append(" ").append("\n");
+			sb.append("#").append(tc).append(" ");
+			sb.append(binarySearch(0, maxV+1)).append(" ").append("\n");
 		}
-		
 		System.out.print(sb);
 	}
 	
-	private static void binarySearch(long s, long e) {
-		s = 0;  e = 1000000000000000001L;
+	private static long binarySearch(long s, long e) {
 		while(s + 1 < e) {
 			long mid = (s+e) / 2; 
 			long candies = getCandies(mid);
 
-			if(candies >= m) {
-				s = mid;
-			}else {
-				e  = mid;
-			}
-//			if(candies == m && getCandies(mid+1) == m-1) {
-//				answer = mid;
-//				return;
-//			} 
+			if(candies >= m)  s = mid;
+			else e  = mid;
 		}
-
-		answer = s;
+		return s;
 	}
 
 	private static long getCandies(long mid) { // mid 라는 가방의 크기에 들어갈 수 있는 캔디의 최대 수
