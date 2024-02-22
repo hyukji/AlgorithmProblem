@@ -1,11 +1,10 @@
 import java.io.*;
 import java.util.*;
 
-// 프림
 public class Solution  {
 
-	static List<int[]>[] graph ;
 	static int n, m;
+	static int[] p;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,52 +17,49 @@ public class Solution  {
 			n = Integer.parseInt(st.nextToken());
 			m = Integer.parseInt(st.nextToken());
 			
-			boolean[] visited = new boolean[n];
-			int[] minEdges = new  int[n];
-			graph = new List[n];
-			for(int i = 0; i < n; i++) {
-				graph[i] = new ArrayList<>();
-				minEdges[i] = Integer.MAX_VALUE;
-			}
+			p = new int[n];
+			for(int i = 0; i < n; i++) p[i] = i;
+			PriorityQueue<int[]> pq= new PriorityQueue<>((o1, o2) -> Integer.compare(o1[2], o2[2]));
 			
 			for(int i = 0; i < m; i++) {
 				st = new StringTokenizer(br.readLine());
 				int a = Integer.parseInt(st.nextToken()) - 1;
 				int b = Integer.parseInt(st.nextToken()) - 1;
 				int w = Integer.parseInt(st.nextToken());
-				graph[a].add(new int[] {b, w});
-				graph[b].add(new int[] {a, w});
+				pq.offer(new int[] {a, b, w});
 			}
-
-			long answer = 0, cnt = 0;		
-			PriorityQueue<int[]> pq= new PriorityQueue<>((o1, o2) -> Integer.compare(o1[1], o2[1]));
-			minEdges[0] = 0;
-			pq.offer(new int[] {0, 0});
-			while(!pq.isEmpty()){
+	
+			long answer = 0, cnt = 0;
+			while(cnt < n-1) {
 				int[] cur = pq.poll();
-				int minV = cur[0];
-				int minE =cur[1];
+				int a = cur[0];
+				int b= cur[1];
+				int w = cur[2];
 				
-				if(visited[minV]) continue;
-				visited[minV] = true;
-				answer += minE;
-				if(++cnt == n) break;
-				
-				for(int[] edge : graph[minV]) {
-					int nv = edge[0], ne = edge[1];
-					if(visited[nv]) continue;
-					if(minEdges[nv] > ne) {
-						pq.offer(new int[] {nv, ne});
-						minEdges[nv] = ne;
-					}
-				}
+				if(!union(a, b)) continue;
+				cnt++;
+				answer += w;
 			}
 			
 			sb.append("#").append(tc).append(" ").append(answer).append("\n");
 		}
 		
-		System.out.println(sb);
+		System.out.print(sb);
 	}
 
+	private static boolean union(int a, int b) {
+		int ra = find(a);
+		int rb = find(b);
+		if(ra == rb) return false;
+		p[ra] = rb;
+		return true;
+	}
+
+	private static int find(int a) {
+		if(p[a] == a) return a;
+		return p[a] = find(p[a]);
+	}
+
+	
 
 }
