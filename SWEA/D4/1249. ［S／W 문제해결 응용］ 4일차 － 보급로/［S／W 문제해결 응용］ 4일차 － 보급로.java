@@ -27,11 +27,11 @@ public class Solution {
 				}
 			}
 			
-			Deque<int[]> q = new ArrayDeque<>(); // bfs 이용. 
-			q.offer(new int[] {0 ,0 , graph[0][0]});
+			PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[2], o2[2])); // bfs 이용. 
+			pq.offer(new int[] {0 ,0 , graph[0][0]});
 			
-			while(!q.isEmpty()) { 
-				int[] restore = q.poll();
+			while(!pq.isEmpty()) { 
+				int[] restore = pq.poll();
 				int r = restore[0];
 				int c = restore[1];
 				int time = restore[2];
@@ -45,7 +45,7 @@ public class Solution {
 					if(visited[nr][nc] <= nTime) continue; // 이전에 탐색했던 경로가 더 빠른 경우 
 					
 					visited[nr][nc] = nTime;
-					q.offer(new int[] {nr, nc, nTime});
+					pq.offer(new int[] {nr, nc, nTime});
 				}
 			}
 			
