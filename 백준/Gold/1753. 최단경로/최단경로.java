@@ -41,31 +41,26 @@ public class Main {
 	}
 
 	private static void dijk(int k) {
-		dists[k] = 0;
-		boolean[] visited = new boolean[n];
-		
 		PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[1], o2[1]));
 		pq.offer(new int[] {k, 0});
 		
 		int cnt = 0;
 		while(!pq.isEmpty()) {
-			if(cnt == n) return; // n개 다 모았으면 dijk 종료
+			if(cnt == n) return;
 			
 			int[] cur = pq.poll();
 			int node = cur[0];
 			int dist = cur[1];
-			if(visited[node]) continue;
+			if(dists[node] <= dist) continue;
 			
-            // 방문처리
 			dists[node] = dist;
-			visited[node] = true;
 			cnt++;
 			
-			for(int[] next : graph[node]) { // 다음 노드까지의 거리 pq에 저장
-				if(visited[next[0]]) continue;
-				pq.offer(new int[] {next[0], dist + next[1]});
+			for(int[] next : graph[node]) {
+				int nDist = dist + next[1];
+				if(dists[next[0]] <= nDist) continue;
+				pq.offer(new int[] {next[0], nDist});
 			}
-			
 		}
 	
 	}
