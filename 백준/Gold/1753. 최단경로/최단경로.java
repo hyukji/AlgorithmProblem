@@ -33,11 +33,13 @@ public class Main {
 		
 		dijk(k);
 		
+		StringBuilder sb = new StringBuilder();
 		for(int v : dists) {
-			if(v == Integer.MAX_VALUE) System.out.println("INF");
-			else System.out.println(v);
+			if(v == Integer.MAX_VALUE) sb.append("INF\n");
+			else sb.append(v).append("\n");
 		}
 		
+		System.out.print(sb);
 	}
 
 	private static void dijk(int k) {
@@ -51,8 +53,8 @@ public class Main {
 			int[] cur = pq.poll();
 			int node = cur[0];
 			int dist = cur[1];
-			if(dists[node] <= dist) continue;
 			
+			if(dists[node] <= dist) continue;
 			dists[node] = dist;
 			cnt++;
 			
