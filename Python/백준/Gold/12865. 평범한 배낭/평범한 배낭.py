@@ -2,19 +2,16 @@ import sys
 input = sys.stdin.readline
 
 n, k = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
+data = [list(map(int, input().split())) for _ in range(n)] # w, v를 모아둔다.
 
-dp = [[0 for _ in range(k+1)] for _ in range(n)]
-v, c = graph[0]
-for j in range(v, k+1):
-    dp[0][j] = c
+d = {0:0}
+for dw, dv in data:
+    tmp = dict()
+    for v, w in d.items():
+        nv = v + dv
+        nw = w + dw
+        if(d.get(nv, k+1) > nw):
+            tmp[nv] = nw
+    d.update(tmp)
 
-for i in range(1, n):
-    v, c = graph[i]
-    for j in range(k+1):
-        if(j < v):
-            dp[i][j] = dp[i-1][j]
-        else:
-            dp[i][j] = max(dp[i-1][j-v] + c, dp[i-1][j])
-
-print(dp[-1][-1])
+print(max(d.keys()))
