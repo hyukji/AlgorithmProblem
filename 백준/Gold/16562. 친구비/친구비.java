@@ -29,14 +29,18 @@ public class Main {
             union(v, w);
         }
 
-        Map<Integer, Integer> map = new HashMap<>();
+        // 전체 부모 업데이트
         for(int i = 0; i < n; i++) find(i);
 
+        // 그룹별로 root이름으로 최소 비용 계산.
+        Map<Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < n; i++) {
             int pi = find(i);
+            // 비용 계산할 때, pi가 아닌 i로 계산!
             map.put(pi, Integer.min(nodes[i], map.getOrDefault(pi, Integer.MAX_VALUE)));
         }
 
+        // 비용들의 합이므로 long!!
         long price = 0;
         for(int v : map.values()) price += v;
 
