@@ -1,21 +1,23 @@
 from collections import defaultdict
-from itertools import combinations
+import sys
+
+input = sys.stdin.readline
 
 n, m = map(int, input().split())
 arr = list(map(int, input().split()))
+answer = 0
+ddict = defaultdict(int)
 
-_dict = defaultdict(int)
-_dict[0] += 1
+sum_arr = [0]
+for i in range(n):
+    r = (sum_arr[-1] + arr[i]) % m
+    sum_arr.append(r)
+    ddict[r] += 1
 
-arr[0] %= m 
-_dict[arr[0]] += 1
-for i in range(1, n):
-    arr[i] = (arr[i] + arr[i-1]) % m
-    _dict[arr[i]] += 1
-    
-cnt = 0
-for key in _dict.keys():
-    v = _dict[key]
-    cnt += (v * (v-1) // 2) 
+for k in ddict.keys():
+    v = ddict[k]
+    answer += (v * (v-1) // 2)
 
-print(cnt)
+answer += ddict[0]
+
+print(answer)
