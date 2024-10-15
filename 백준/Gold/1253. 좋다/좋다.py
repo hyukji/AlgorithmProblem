@@ -1,28 +1,28 @@
 import sys
-input = sys.stdin.readline
 
 n = int(input())
 arr = list(map(int, input().split()))
-_dict = dict()
-for v in arr:
-    _dict[v] = _dict.get(v, 0) + 1
+arr.sort()
 
 answer = 0
-for t in arr:
-    _dict[t] -= 1
-    for s in arr:
-        e = t - s
-        if(_dict[s] == 0):
-            continue
-        
-        cnt = _dict.get(e, 0)
-        if(s == e and cnt > 1):
-            answer += 1
-            break
-        elif(s != e and cnt > 0):
-            answer+=1  
-            break
+for i in range(n):
+    v = arr[i]
+    s, e = 0, n-1
     
-    _dict[t] += 1
-        
+    while s < e:
+
+        nv = arr[s] + arr[e]
+        if nv == v:
+            if s == i:
+                s += 1
+            elif e == i:
+                e -= 1
+            else:
+                answer += 1
+                break
+        elif nv < v:
+            s += 1
+        else:
+            e -= 1
+
 print(answer)
